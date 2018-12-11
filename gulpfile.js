@@ -6,16 +6,18 @@ gulp.task('server', function() {
         .pipe(server({
             port: '9090',
             proxies: [{
-                source: '/api/get/list',
-                target: 'http://localhost:3000/api/get/list'
+                source: '/users/api/get/list',
+                target: 'http://169.254.237.125:3000/users/api/get/list'
             }]
         }))
 });
-// gulp.task('sass', function() {
-//     return gulp.src('./src/sass/*.scss')
-//     pipe(sass())
-//     pipe(gulp.dest('./src/css'))
-// });
-// gulp.task('watch', function() {
-//     gulp.watch('')
-// })
+gulp.task('Sass', function() {
+    return gulp.src('./src/sass/*.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('./src/css'))
+});
+gulp.task('watch', function() {
+    gulp.watch('./src/sass/*.scss', gulp.series('Sass'))
+});
+//开发环境
+gulp.task('dev', gulp.series('Sass', 'server', 'watch'));
